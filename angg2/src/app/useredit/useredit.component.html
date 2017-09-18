@@ -1,0 +1,72 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-8 col-md-7">
+			<div class="card">
+				<div class="header">
+					<h4 class="title">Edit Profile</h4>
+				</div>
+				<div class="content">
+					<form [formGroup]="userForm">						
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>First Name</label>
+									<input type="text" [formControl]="userForm.controls['first_name']" class="form-control border-input" placeholder="First Name">
+									<div *ngIf="userForm.controls['first_name'].hasError('required') && submitted" class="alert alert-danger">Enter first name.</div>          
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Last Name</label>
+									<input type="text" [formControl]="userForm.controls['last_name']" class="form-control border-input" placeholder="Last Name">
+									<div *ngIf="userForm.controls['last_name'].hasError('required') && submitted" class="alert alert-danger">Enter last name.</div>          
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Address</label>
+									<input type="text" [formControl]="userForm.controls['address']" class="form-control border-input" placeholder="Address">
+									<div *ngIf="userForm.controls['address'].hasError('required') && submitted" class="alert alert-danger">Enter address.</div>          
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>City</label>
+									<input type="text" [formControl]="userForm.controls['city']" class="form-control border-input" placeholder="City">
+									<div *ngIf="userForm.controls['city'].hasError('required') && submitted" class="alert alert-danger">Enter city name.</div>          
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>State</label>
+									<input type="text" [formControl]="userForm.controls['state']" class="form-control border-input" placeholder="State">
+									<div *ngIf="userForm.controls['state'].hasError('required') && submitted" class="alert alert-danger">Enter state name.</div>          
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Zipcode</label>
+									<input type="text" [formControl]="userForm.controls['zipcode']" class="form-control border-input" placeholder="Zipcode" value="">
+									<div *ngIf="userForm.controls['zipcode'].hasError('required') && submitted" class="alert alert-danger">Enter zipcode</div>          
+								</div>
+							</div>
+						</div>
+
+						<div class="text-center">
+							<button type="button" (click)="userEdit()" class="btn btn-info btn-fill btn-wd">Submit</button>
+						</div>
+						<div class="clearfix"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</div>

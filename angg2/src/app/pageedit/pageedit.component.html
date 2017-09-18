@@ -1,0 +1,54 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-8 col-md-12">
+			<div class="card">
+				<div class="header">
+				
+					<h4 class="title">Edit Page</h4>
+				</div>
+				<div class="content">
+					<form [formGroup]="pageForm">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Title</label>
+									<input type="text" [formControl]="pageForm.controls['title']" class="form-control border-input" placeholder="Title" value="">
+									<div *ngIf="pageForm.controls['title'].hasError('required') && submitted" class="alert alert-danger">Enter title.</div>          
+								</div>
+							</div>
+						</div>
+                        <div class="row">						
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="exampleInputEmail1">Content</label>
+									<ckeditor  [formControl]="pageForm.controls['content']" [config]="{uiColor: '#99000'}"></ckeditor>
+									<!-- <textarea [formControl]="pageForm.controls['content']" class="form-control border-input" placeholder="Content"></textarea> -->
+									<div *ngIf="pageForm.controls['content'].hasError('required') && submitted" class="alert alert-danger">Enter Content.</div>           
+								</div>
+							</div>
+						</div>	
+						<div class="row">							
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Status</label>
+									<select name="status" [formControl]="pageForm.controls['status']" class="form-control border-input">
+									   <option value="A">Active</option>
+									   <option value="I">Inctive</option>
+									</select>								
+									<div *ngIf="pageForm.controls['status'].hasError('required') && submitted" class="alert alert-danger">Select status.</div>          
+								</div>
+							</div>
+						</div>												
+
+						<div class="text-center">
+							<button type="button" (click)="pageEdit()" class="btn btn-info btn-fill btn-wd">
+							   Submit
+							</button>
+						</div>
+						<div class="clearfix"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

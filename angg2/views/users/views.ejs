@@ -1,0 +1,54 @@
+<table border="1" width="100%" style="border-collapse:collapse">
+		        <tr>
+				   <td>Email</td>
+				   <td>Username</td>
+				   <td>Name</td>
+                   <td>Date Of Birth</td>
+				   <td>Address</td>
+				   <td>City</td>
+				   <td>State</td>
+				   <td>Zipcode</td>
+                   <td>Created</td>
+                   <td>Description</td> 				   
+				</tr>
+				<tr>
+					<td>
+					  <%= records['email'] %>
+					</td>						
+					
+					<td>
+					  <%= records['username'] %>
+					</td>						
+					
+					<td>
+					   <%= records['first_name']+" "+records['last_name'] %>
+					</td>
+
+                    <td>
+					   <%= records['dateofbirth'] %>
+					</td>
+ 
+                    <td>
+					   <%= records['address'] %>
+					</td>
+
+                    <td>
+					   <%= records['city'] %>
+					</td>
+
+                    <td>
+					   <%= records['state'] %>
+					</td>
+
+                    <td>
+					   <%= records['zipcode'] %>
+					</td>					
+
+                    <td>
+					   <%= records['created_at'] %>
+					</td>
+                    <td>
+					   <%= records['userprofiles'][0]['description'] %>
+					</td>					
+				</tr>							 
+</table>			

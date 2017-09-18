@@ -1,0 +1,28 @@
+<div class="wrapper" *ngIf="!isLogin">
+    <div class="sidebar" data-background-color="white" data-active-color="danger">
+        <!-- <sidebar-cmp></sidebar-cmp> -->
+		<router-outlet name="sidebar"></router-outlet>
+    </div>
+    <div class="main-panel">
+        <!-- <navbar-cmp></navbar-cmp> -->
+		<router-outlet name="navbar"></router-outlet>
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+        <!-- <footer-cmp></footer-cmp> -->
+		<router-outlet name="footer"></router-outlet>
+    </div>
+</div>
+
+<div class="wrapper" *ngIf="isLogin">
+    <div class="main-panel" style="width:100%">
+        <!-- <navbar-cmp></navbar-cmp> -->
+		<router-outlet name="header"></router-outlet>
+        <div class="content" style="padding-left:25%">
+            <router-outlet></router-outlet>
+        </div>
+        <!-- <footer-cmp></footer-cmp> -->
+		<router-outlet name="footer"></router-outlet>
+    </div>
+</div>
+<fixedplugin-cmp></fixedplugin-cmp>

@@ -1,0 +1,28 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-8 col-md-7">
+			<div class="card">
+				<div class="header">
+					<h4 class="title">Settings</h4>
+				</div>
+				<div class="content">
+				    <form #signupForm="ngForm" (ngSubmit)="update()">
+						<div *ngFor="let setting of settings; let i=index">	
+                            <div class="row">
+								<div class="col-md-12">
+									<div class="form-group">						
+										<label>{{setting.title}}</label>
+										<input type="text" name="settings[]" [(ngModel)]="settings[i].content" value="settings[i].content" class="form-control border-input"/>
+									</div>
+								</div>								
+							</div>	
+						</div>
+						<div class="text-center">
+						    <button type="submit" class="btn btn-info btn-fill btn-wd">Save</button>
+						</div>
+                    </form>					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
