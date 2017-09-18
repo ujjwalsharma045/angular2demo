@@ -10,6 +10,7 @@ import {HttpClient} from '@angular/common/http';
   templateUrl: './pageadd.component.html',
   styleUrls: ['./pageadd.component.css']
 })
+
 export class PageaddComponent implements OnInit {
     pageForm:FormGroup;
     private submitted =false;
@@ -23,6 +24,7 @@ export class PageaddComponent implements OnInit {
     }
 
     ngOnInit() {
+		
     }
 
     pageAdd(){

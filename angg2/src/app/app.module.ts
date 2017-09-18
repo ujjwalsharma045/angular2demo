@@ -33,6 +33,10 @@ import { AdminloginComponent } from './adminlogin/adminlogin.component';
 import { Sidebar2Component } from './sidebar2/sidebar2.component';
 import { HeaderComponent } from './header/header.component';
 import { RegisterComponent } from './register/register.component';
+import { ProductaddComponent } from './productadd/productadd.component';
+import { ProducteditComponent } from './productedit/productedit.component';
+import { ProductviewComponent } from './productview/productview.component';
+import { ProductlistComponent } from './productlist/productlist.component';
 //import {PopupModule} from 'ng2-opd-popup';
 
 @NgModule({
@@ -59,6 +63,10 @@ import { RegisterComponent } from './register/register.component';
     Sidebar2Component,
     HeaderComponent,
     RegisterComponent,
+    ProductaddComponent,
+    ProducteditComponent,
+    ProductviewComponent,
+    ProductlistComponent,
   ],
   imports: [
     BrowserModule,
