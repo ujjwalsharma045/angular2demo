@@ -11,14 +11,18 @@ import {HttpClient} from '@angular/common/http';
 })
 
 export class ProductlistComponent implements OnInit {
-  private ProductDetail = [];
-  private siteUrl = "";
+  private productdetail = [];
+  private search = {
+	  sortfield:'title'
+  };
+  pager: any = {};
+  private siteUrl = "http://localhost:8081/";
   constructor(private route:ActivatedRoute ,private router:Router, private http:HttpClient) { }
 
   ngOnInit() {
-	  this.http.get(this.siteUrl).subscribe(result=>{
-	      if(result['success']=="1"){
-			  this.ProductDetail = result['records'];
+	  this.http.get(this.siteUrl+"product/index").subscribe(result=>{
+	      if(result['success']=="1"){			  
+			  this.productdetail = result['records'];
 		  }    
 	  });
   }
@@ -29,5 +33,9 @@ export class ProductlistComponent implements OnInit {
 				location.reload(); 
 			 }
 	  });
+  }
+  
+  sortlist(field){
+	  
   }
 }

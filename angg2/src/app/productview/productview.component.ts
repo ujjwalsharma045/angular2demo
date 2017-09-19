@@ -11,19 +11,19 @@ import {HttpClient} from '@angular/common/http';
 })
 
 export class ProductviewComponent implements OnInit {
-  private siteUrl = "";
-  private pageid = "";
-  private pageDetail = {};
+  private siteUrl = "http://localhost:8081/";
+  private productid = "";
+  private productDetail = {};
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
 	    this.route.params.subscribe(params => {
-           this.pageid = params['id'];
+           this.productid = params['id'];
         });
 		
-		this.http.get(this.siteUrl+"view/"+this.pageid).subscribe(result=>{
+		this.http.get(this.siteUrl+"product/view/"+this.productid).subscribe(result=>{
 			 if(result['success']==1){
-				 this.pageDetail = result['records'][0];		
+				 this.productDetail = result['records'][0];		
 			 }
 	    });  
   }

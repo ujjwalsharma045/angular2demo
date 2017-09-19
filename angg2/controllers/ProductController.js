@@ -1,9 +1,7 @@
 module.exports = function(app , func , mail, upload, storage, mailer, multer, validator, Product, paginate , cors , dateFormat , dateDiff, dobByAge, json2csv, excel , pdf, passport , LocalStrategy, bCrypt , fs, async, PasswordGenerate, randtoken, handlebars){ 
     var math = require('mathjs');  
-	
-	
-	
-	app.post("/product/add", passport.isAdminAuthenticated, function(req, res){
+		
+	app.post("/product/add", function(req, res){
 		   if(req.method=="POST"){
 			   var currentdate = new Date();
                var formatteddate = dateFormat(currentdate ,'yyyy-mm-dd HH:MM:ss');
@@ -16,7 +14,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 				   cost_price:req.body.cost_price,
 				   discount_type:req.body.discount_type,
 				   discount:req.body.discount,
-				   created_at:formatteddate,
+				   created_at:formatteddate, 
 				   status:req.body.status
 			   };
 			   
@@ -26,7 +24,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 					  throw err;
 				  
 			       res.setHeader('Content-Type', 'application/json');
-				   res.send(JSON.stringify({authen:1 , success:1 , product_id:''})); 				   
+				   res.send(JSON.stringify({authen:1 , success:1})); 				   
 			   });
 		   }
            else {
@@ -35,7 +33,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
            }		   
 	});
 
-    app.post("/product/edit/:id", passport.isAdminAuthenticated, function(req, res){
+    app.post("/product/edit/:id", function(req, res){
 		   if(req.method=="POST"){
 				   var productid = req.params.id;
 				   var currentdate = new Date();
@@ -67,7 +65,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
            }		   
 	});	
 
-    app.get("/product/view/:id", passport.isAdminAuthenticated, function(req , res){
+    app.get("/product/view/:id", function(req , res){
 	      var productid = req.params.id;
 		  Product.find({_id:productid} , function(err, records){
 			 if(err)
@@ -78,7 +76,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 		  });		   
 	});
 
-    app.get("/product/index", passport.isAdminAuthenticated, function(req , res){	
+    app.get("/product/index",  function(req , res){	
 	
           var condition = {};		  
 		  var sortdata = {};		  
@@ -106,7 +104,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 		  });		   
 	});
 
-    app.delete("/product/delete/:id" , passport.isAdminAuthenticated , function(req , res){          
+    app.delete("/product/delete/:id", function(req , res){          
 		  var productid = req.params.id;		  
 		  Product.findOneAndRemove({_id:productid} , function(err){
 			 if(err)

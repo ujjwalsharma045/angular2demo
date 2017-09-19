@@ -13,7 +13,8 @@ import {HttpClient} from '@angular/common/http';
 export class ProducteditComponent implements OnInit {
   productForm:FormGroup;
   private submitted = false;
-  private siteUrl = "";
+  private siteUrl = "http://localhost:8081/";
+  private productid;
   constructor(private route:ActivatedRoute, private router:Router, private http:HttpClient, private formBuilder:FormBuilder) { 
      this.productForm = formBuilder.group({
 		 'title':[null, Validators.required],
@@ -29,14 +30,23 @@ export class ProducteditComponent implements OnInit {
   }
 
   ngOnInit() {
-	  
+	  this.route.params.subscribe(params => {
+           this.productid = params['id'];
+      });
+		
+	  this.http.get(this.siteUrl+"product/view/"+this.productid).subscribe(result=>{
+			 if(result['success']==1){
+				 //this.productDetail = result['records'][0];	
+                 this.productForm.patchValue(result['records'][0]);	 	   		  				 
+			 }
+	  });
   }
 
   editproduct(){
 	  this.submitted = true;
 	  if(this.productForm.valid){
 		  var product = this.productForm.value;
-		  this.http.post(this.siteUrl+"product/edit" , product).subscribe(result=>{
+		  this.http.post(this.siteUrl+"product/edit/"+this.productid , product).subscribe(result=>{
 		     if(result['success']=="1"){
 				 this.router.navigate(['./products']);	  
 			 }
