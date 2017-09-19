@@ -16,10 +16,15 @@ export class ProducteditComponent implements OnInit {
   private siteUrl = "";
   constructor(private route:ActivatedRoute, private router:Router, private http:HttpClient, private formBuilder:FormBuilder) { 
      this.productForm = formBuilder.group({
-		 'title':[null , Validators.required],
+		 'title':[null, Validators.required],
 		 'description':[null , Validators.required],
+		 'meta_tag':[null , Validators.required],
+		 'meta_description':[null , Validators.required],
 		 'price':[null , Validators.required],
-		 'cost':[null , Validators.required]
+		 'cost_price':[null , Validators.required],
+		 'discount_type':[null , Validators.required],
+		 'discount':[null , Validators.required],
+		 'status':[null , Validators.required]
 	 });
   }
 

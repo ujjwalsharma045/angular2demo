@@ -25,6 +25,11 @@ import { Sidebar2Component } from './sidebar2/sidebar2.component';
 import { HeaderComponent } from './header/header.component';
 import { RegisterComponent } from './register/register.component';
 
+import { ProductaddComponent } from './productadd/productadd.component';
+import { ProducteditComponent } from './productedit/productedit.component';
+import { ProductviewComponent } from './productview/productview.component';
+import { ProductlistComponent } from './productlist/productlist.component';
+
 export const AppRoutes: Routes = [
     {
         path: '',
@@ -153,7 +158,32 @@ export const AppRoutes: Routes = [
 		   { path: '', component:HeaderComponent, outlet:'header'},            
            { path: '', component:FooterComponent, outlet:'footer'}
 		],
-    }
+    },	
+	{
+        path: 'product/add',
+		component:ProductaddComponent,
+		data:{title:'Add Product'}		
+    },
+    {
+        path: 'product/edit/:id',
+		component:ProducteditComponent,
+		data:{title:'Edit Product'}		
+    },
+    {
+        path: 'product/view/:id',
+		component:ProductviewComponent,
+		data:{title:'View Product'}		
+    },
+	{
+        path: 'products',
+        component: ProductlistComponent,
+		data:{title:'Products'},
+		children:[
+		   { path: '', component:SidebarComponent, outlet:'sidebar'}, 
+           { path: '', component:NavbarComponent, outlet:'navbar'},
+           { path: '', component:FooterComponent, outlet:'footer'}
+		],
+    },
 ]
 
 export const LoginRoutes: Routes = [    

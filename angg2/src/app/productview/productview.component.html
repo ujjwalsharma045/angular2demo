@@ -1,3 +1,48 @@
-<p>
-  productview works!
-</p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-5">
+                <div class="card card-user">
+                    <!-- <div class="image">
+                        <img src="assets/img/background.jpg" alt="..."/>
+                    </div>
+                    <div class="content">
+                        <div class="author">
+                          <img class="avatar border-white" src="assets/img/faces/face-2.jpg" alt="..."/>
+                          <h4 class="title">Chet Faker<br />
+                             <a href="#"><small>@chetfaker</small></a>
+                          </h4>
+                        </div>
+                        <p class="description text-center">
+                            "I like the way you work it <br>
+                            No diggity <br>
+                            I wanna bag it up"
+                        </p>
+                    </div> -->
+                    <hr>
+                    <div class="text-center">
+                        <div class="row">
+						
+                            <div class="col-md-4">
+                                <h5>{{productDetail._id}}</h5><br /><small>Product ID</small>
+							</div>
+                            
+							<div class="col-md-4">
+                                <h5>{{productDetail.title}}</h5><br /><small>Title</small>
+							</div>
+                            <div class="col-md-4">							
+								<h5 [innerHTML]="productDetail.content"></h5><br /><small >Description</small>
+                            </div>
+							
+                            <div class="col-md-4">
+                                <h5>{{productDetail.status}}</h5><br /><small>Status</small>
+                            </div>
+							
+							<div class="col-md-4">
+                                <h5>{{productDetail.created_at}}</h5><br /><small>Created</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+        </div>
+    </div>

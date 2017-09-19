@@ -123,6 +123,7 @@ var User = require('./models/UserModel')(mongoose);
 var Services = require('./models/ServiceModel')(mongoose);
 var Setting = require('./models/SettingModel')(mongoose);
 var Category = require('./models/CategoryModel')(mongoose);
+var Product = require('./models/ProductModel')(mongoose); 
 var PasswordGenerate = require('./models/PasswordGenerateModel')(mongoose);
 
 var Page = require('./models/PageModel')(mongoose);
@@ -232,7 +233,7 @@ require('./controllers/SettingController')(app, func, mail, upload, storage, mai
 require('./controllers/HomeController')(app, func, mail, mailer, multer, validator, cors, dateFormat, dateDiff, LocalStrategy, Category, Page, passport, fs, async, User, handlebars);
  
 require('./controllers/PageController')(app , func , mail, upload, storage, mailer, multer, validator, Page , paginate , cors , dateFormat, dateDiff , dobByAge , json2csv , excelexport , pdf , passport , LocalStrategy, bCrypt, slugify);
-
+require('./controllers/ProductController')(app , func , mail, upload, storage, mailer, multer, validator, Product, paginate , cors , dateFormat, dateDiff , dobByAge , json2csv , excelexport , pdf , passport , LocalStrategy, bCrypt, fs, async, PasswordGenerate, randtoken, handlebars);
 //require('./crons/crons')(schedule, mail, mailer, User);
 
 app.use(function(req, res) {

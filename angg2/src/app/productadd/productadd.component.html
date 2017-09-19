@@ -1,3 +1,115 @@
-<p>
-  productadd works!
-</p>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-8 col-md-7">
+			<div class="card">
+				<div class="header">
+				    
+					<h4 class="title">Add Product</h4>
+				</div>
+				<div class="content">
+					<form [formGroup]="productForm">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Title</label>
+									<input type="text" [formControl]="productForm.controls['title']" class="form-control border-input" placeholder="Title" value="">
+									<div *ngIf="productForm.controls['title'].hasError('required') && submitted" class="alert alert-danger">Enter title.</div>          
+								</div>
+							</div>
+						</div>
+						
+                        <div class="row">						
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="exampleInputEmail1">Content</label>
+									<ckeditor  [formControl]="productForm.controls['description']" [config]="{uiColor: '#99000'}"></ckeditor>
+									<!-- <textarea [formControl]="pageForm.controls['content']" class="form-control border-input" placeholder="Content"></textarea> -->
+									<div *ngIf="productForm.controls['description'].hasError('required') && submitted" class="alert alert-danger">Enter Description.</div>          
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">						
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="exampleInputEmail1">Meta Tag</label>									
+									<textarea [formControl]="productForm.controls['meta_tag']" class="form-control border-input" placeholder="Meta Tag"></textarea>
+									<div *ngIf="productForm.controls['meta_tag'].hasError('required') && submitted" class="alert alert-danger">Enter Meta Tag.</div>          
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">						
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="exampleInputEmail1">Meta Description</label>
+									<textarea [formControl]="productForm.controls['meta_description']" class="form-control border-input" placeholder="Meta Description"></textarea>
+									<div *ngIf="productForm.controls['meta_description'].hasError('required') && submitted" class="alert alert-danger">Enter Meta Description.</div>          
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Cost Price</label>
+									<input type="text" [formControl]="productForm.controls['cost_price']" class="form-control border-input" placeholder="Cost Price" value="">
+									<div *ngIf="productForm.controls['cost_price'].hasError('required') && submitted" class="alert alert-danger">Enter cost price.</div>          
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Price</label>
+									<input type="text" [formControl]="productForm.controls['price']" class="form-control border-input" placeholder="Price" value="">
+									<div *ngIf="productForm.controls['price'].hasError('required') && submitted" class="alert alert-danger">Enter price.</div>          
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Discount Type</label>
+									<input type="text" [formControl]="productForm.controls['discount_type']" class="form-control border-input" placeholder="Discount Type" value="">
+									<div *ngIf="productForm.controls['discount_type'].hasError('required') && submitted" class="alert alert-danger">Enter Discount Type.</div>          
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Discount</label>
+									<input type="text" [formControl]="productForm.controls['discount']" class="form-control border-input" placeholder="Discount" value="">
+									<div *ngIf="productForm.controls['discount'].hasError('required') && submitted" class="alert alert-danger">Enter Discount.</div>          
+								</div>
+							</div>
+						</div>
+											
+                        <div class="row">						
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Status</label>
+									<select name="status" [formControl]="productForm.controls['status']" class="form-control border-input">
+									   <option value="A">Active</option>
+									   <option value="I">Inctive</option>
+									</select>								
+									<div *ngIf="productForm.controls['status'].hasError('required') && submitted" class="alert alert-danger">Select status.</div>          
+								</div>
+							</div>
+						</div>												
+
+						<div class="text-center">
+							<button type="button" (click)="addproduct()" class="btn btn-info btn-fill btn-wd">Submit</button>
+						</div>
+						<div class="clearfix"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
