@@ -22,6 +22,7 @@ export class PageviewComponent implements OnInit {
 	    this.route.params.subscribe(params => {
            this.pageid = params['id'];
         });
+		
 		this.sectionTitle = this.sectionTitle+' '+this.pageid;
 		this.view(this.pageid).subscribe(result => {
 			console.log(result);
