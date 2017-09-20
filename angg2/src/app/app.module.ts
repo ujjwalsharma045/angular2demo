@@ -37,6 +37,10 @@ import { ProductaddComponent } from './productadd/productadd.component';
 import { ProducteditComponent } from './productedit/productedit.component';
 import { ProductviewComponent } from './productview/productview.component';
 import { ProductlistComponent } from './productlist/productlist.component';
+import { CategorylistComponent } from './categorylist/categorylist.component';
+import { CategoryaddComponent } from './categoryadd/categoryadd.component';
+import { CategoryeditComponent } from './categoryedit/categoryedit.component';
+import { CategoryviewComponent } from './categoryview/categoryview.component';
 //import {PopupModule} from 'ng2-opd-popup';
 
 @NgModule({
@@ -67,6 +71,10 @@ import { ProductlistComponent } from './productlist/productlist.component';
     ProducteditComponent,
     ProductviewComponent,
     ProductlistComponent,
+    CategorylistComponent,
+    CategoryaddComponent,
+    CategoryeditComponent,
+    CategoryviewComponent,
   ],
   imports: [
     BrowserModule,
