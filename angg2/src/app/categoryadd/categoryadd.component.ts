@@ -14,10 +14,12 @@ export class CategoryaddComponent implements OnInit {
   CategoryForm:FormGroup ;
   private siteUrl = "";
   private submitted = false;
+  
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private formBuilder: FormBuilder) { 
      this.CategoryForm = formBuilder.group({
 		 'title':[null, Validators.required],      
 		 'content':[null, Validators.required],
+		 'parent_id':[null, Validators.required],
 		 'status':[null, Validators.required]			
 	 });
   }
@@ -26,6 +28,14 @@ export class CategoryaddComponent implements OnInit {
   }
 
   add(){
-	  
+	  this.submitted = true;
+	  if(this.CategoryForm.valid){
+		  var catedata = this.CategoryForm.value;
+		  this.http.post(this.siteUrl+"category/add" , catedata).subscribe(result=>{
+		      if(result['success']=="1"){
+				  
+			  }
+		  });
+	  }
   } 
 }

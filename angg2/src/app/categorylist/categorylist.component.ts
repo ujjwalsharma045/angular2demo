@@ -7,9 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategorylistComponent implements OnInit {
 
-  constructor() { }
+  private siteUrl = "";
+  private categoryDetail = [];  
+  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+	  this.http.get(this.siteUrl+"/category/index").subscribe(result=>{
+		  if(result['success']=="1"){
+			 this.categoryDetail = result['records'];
+		  }
+	  });
   }
-
+  
+  remove(id){	
+	  this.http.delete(this.siteUrl+"/category/delete/"+id).subscribe(result=>{
+	       if(result['success']=="1"){
+			   
+		   }
+	  });
+  }
 }
