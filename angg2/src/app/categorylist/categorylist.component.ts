@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router} from '@angular/router';
+import { FormBuilder, Validators,FormGroup,FormControl } from '@angular/forms';
+import { Http, RequestOptions } from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-categorylist',

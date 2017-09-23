@@ -2,7 +2,8 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
     
     var sess;
     //var session = require('express-session'); 
-    var math = require('mathjs');  
+    var math = require('mathjs'); 
+  	var filereader = require('xlsx-to-json-lc');
 
     var readHTMLFile = function(path, callback) {
 		fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
@@ -962,4 +963,65 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 			res.send(JSON.stringify({authen:1 , success:0}));			
 		}				
 	});
+	
+	app.get("/user/import" , function(req , res){
+		 
+		 var errors = [];
+		 var success = [];
+		 
+		 try{
+			filereader({
+				input:'files/users.xls',
+				output:null,
+				lowerCaseHeaders:true
+			} , 
+			function(err , result){				
+				if(err)
+				  res.send({error_code:1 ,  err_desc:err , data:null});
+				var counter = 0;
+				if(result.length>0){
+					for(i=0; i<result.length; i++){
+					    var data = {
+						    email:result[i].email,
+							username:result[i].username,
+							password:'111',
+							first_name:result[i].first_name,
+							last_name:result[i].last_name,
+							address:result[i].address,
+							state:result[i].state,							
+							city:result[i].city,
+							zipcode:result[i].zipcode,
+							dateofbirth:result[i].dob							
+						};
+						
+						console.log(data);
+						var useob = new User(data)
+						
+						useob.save(function(err){
+							console.log(err);
+						    if(err){
+							  errors[i] = err;
+							}
+                            else {
+							  counter++; 	
+							  success[i] = counter;	 
+							}						  
+						});	
+					}
+					
+                    res.send({error_code:1 ,  err_desc:'' , data:errors});						
+				}
+				else {
+				    res.send({error_code:1 ,  err_desc:'' , data:result});	
+				}				
+			}); 
+		 }
+		 catch(e){			 
+			 res.send({error_code:1 ,  err_desc:e});
+		 }
+	});
+	
+	var extractdatafromxls = function(){
+		 
+	}
 }
