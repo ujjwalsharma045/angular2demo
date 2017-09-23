@@ -4,7 +4,8 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
     //var session = require('express-session'); 
     var math = require('mathjs'); 
   	var filereader = require('xlsx-to-json-lc');
-
+    var async = require('async');	
+	
     var readHTMLFile = function(path, callback) {
 		fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
 			if(err){
@@ -968,6 +969,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 		 
 		 var errors = [];
 		 var success = [];
+		 var error_detail = [];
 		 
 		 try{
 			filereader({
@@ -980,36 +982,62 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 				  res.send({error_code:1 ,  err_desc:err , data:null});
 				var counter = 0;
 				if(result.length>0){
-					for(i=0; i<result.length; i++){
+					var i = 0;
+					async.forEachSeries(result , function(result , callback){
+					//for(i=0; i<result.length; i++){
+						
 					    var data = {
-						    email:result[i].email,
-							username:result[i].username,
+						    email:result.email,
+							username:result.username,
 							password:'111',
-							first_name:result[i].first_name,
-							last_name:result[i].last_name,
-							address:result[i].address,
-							state:result[i].state,							
-							city:result[i].city,
-							zipcode:result[i].zipcode,
-							dateofbirth:result[i].dob							
+							first_name:result.first_name,
+							last_name:result.last_name,
+							address:result.address,
+							state:result.state,							
+							city:result.city,
+							zipcode:result.zipcode,
+							dateofbirth:result.dob							
 						};
-						
-						console.log(data);
-						var useob = new User(data)
-						
-						useob.save(function(err){
-							console.log(err);
-						    if(err){
-							  errors[i] = err;
+						console.log(data.email);
+						User.find({email:data.email}).exec(function(err , records){
+							//console.log(records.length);
+							console.log(records);							
+							if(records.length>0){								
+								error_detail[i] = "User with email "+data.email+ " already exists.";
 							}
                             else {
-							  counter++; 	
-							  success[i] = counter;	 
-							}						  
-						});	
+								User.find({username:data.username}).exec(function(err , records){
+									if(records.length<=0){
+									   	var useob = new User(data);						
+										useob.save(function(err){
+											console.log(err);
+											if(err){
+											  error_detail[i] = err;
+											}
+											else {
+											  counter++; 	
+											  success[i] = counter;	 
+											}						  
+										});
+									}
+									else {										
+										error_detail[i] = "User with username "+data.username+ " already exists.";
+									}
+								});
+							}							
+                            //console.log(error_detail);  							
+						 });						
+						i++;
+						callback();
+					}, function(){
+					 
+				    });
+					console.log(error_detail);
+					if(error_detail.length>0){
+						errors = error_detail;
 					}
 					
-                    res.send({error_code:1 ,  err_desc:'' , data:errors});						
+                    res.send({error_code:1 ,  err_desc:errors , data:success});						
 				}
 				else {
 				    res.send({error_code:1 ,  err_desc:'' , data:result});	
@@ -1020,8 +1048,4 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 			 res.send({error_code:1 ,  err_desc:e});
 		 }
 	});
-	
-	var extractdatafromxls = function(){
-		 
-	}
 }
