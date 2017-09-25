@@ -984,8 +984,8 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 				if(result.length>0){
 					var i = 0;
 					async.forEachSeries(result , function(result , callback){
-					//for(i=0; i<result.length; i++){
-						
+					    //for(i=0; i<result.length; i++){
+						i++;
 					    var data = {
 						    email:result.email,
 							username:result.username,
@@ -998,12 +998,14 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 							zipcode:result.zipcode,
 							dateofbirth:result.dob							
 						};
+						
 						console.log(data.email);
 						User.find({email:data.email}).exec(function(err , records){
 							//console.log(records.length);
 							console.log(records);							
 							if(records.length>0){								
 								error_detail[i] = "User with email "+data.email+ " already exists.";
+								callback();
 							}
                             else {
 								User.find({username:data.username}).exec(function(err , records){
@@ -1020,24 +1022,26 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 											}						  
 										});
 									}
-									else {										
+									else {
+                                        callback();  										
 										error_detail[i] = "User with username "+data.username+ " already exists.";
 									}
 								});
 							}							
                             //console.log(error_detail);  							
 						 });						
-						i++;
-						callback();
+																													
 					}, function(){
-					 
-				    });
-					console.log(error_detail);
-					if(error_detail.length>0){
-						errors = error_detail;
-					}
+					   console.log(i);
+					   if(i==result.length){
+					      if(error_detail.length>0){
+						      errors = error_detail;
+					      }
 					
-                    res.send({error_code:1 ,  err_desc:errors , data:success});						
+                          res.send({error_code:1 ,  err_desc:errors , data:success});							   
+					   }
+				   });					
+				   //console.log(error_detail);					
 				}
 				else {
 				    res.send({error_code:1 ,  err_desc:'' , data:result});	
@@ -1047,5 +1051,18 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 		 catch(e){			 
 			 res.send({error_code:1 ,  err_desc:e});
 		 }
+	});
+	
+	app.get("/user/importcsv" , function(req , res){
+		var csv = require('csv-parser');		
+		var dd = Array();
+		fs.createReadStream('files/users.csv').pipe(csv()).on('data' , function(data){
+			//res.send({error_code:1 ,  err_desc:'' , data:data});
+			dd.push(data);
+            console.log(data);            
+		}).on('end', function (data) {
+           console.log("done");
+		   res.send({error_code:1 ,  err_desc:'' , data:dd});
+	    });			
 	});
 }
