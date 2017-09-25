@@ -1,7 +1,7 @@
 module.exports = function(app , func , mail, upload, storage, mailer, multer, validator, User, paginate , cors , dateFormat , dateDiff, dobByAge, json2csv, excel , pdf, passport , LocalStrategy, bCrypt , fs, async, PasswordGenerate, randtoken, handlebars, UserProfile){ 
     
     var sess;
-    //var session = require('express-session'); 
+    //var session = require('express-session');  
     var math = require('mathjs'); 
   	var filereader = require('xlsx-to-json-lc');
     var async = require('async');	
