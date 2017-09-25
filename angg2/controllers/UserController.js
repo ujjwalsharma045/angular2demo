@@ -16,7 +16,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 			else {
 				callback(null, html); 
 			}
-		});
+		}); 
     };	
 
 	app.get("/showusers", function(req, res){
