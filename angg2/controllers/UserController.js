@@ -1055,14 +1055,63 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 	
 	app.get("/user/importcsv" , function(req , res){
 		var csv = require('csv-parser');		
-		var dd = Array();
-		fs.createReadStream('files/users.csv').pipe(csv()).on('data' , function(data){
+		var results = Array();
+		fs.createReadStream('files/users.csv').pipe(csv()).on('data' , function(data){			
 			//res.send({error_code:1 ,  err_desc:'' , data:data});
-			dd.push(data);
-            console.log(data);            
-		}).on('end', function (data) {
-           console.log("done");
-		   res.send({error_code:1 ,  err_desc:'' , data:dd});
+			results.push(data);
+            //console.log(data);            
+		}).on('end', function (records) {
+           //console.log("done");
+		   var error = Array();
+		   var success = 0;		   
+		   var i =0;
+		   async.forEachSeries(results , function(result , callback){
+			       console.log(result.Email);
+				   i++;				   				   
+				   User.find({email:result.Email}).exec(function(err , recordsfirst){
+					   if(recordsfirst.length>0){
+						   error[i] = "User with email "+result.Email+" already exists";
+						   callback();
+					   }
+					   else {
+						   User.find({username:result.UserName}).exec(function(err , recordssecond){
+							   if(recordssecond.length>0){
+								  error[i] = "User with username "+result.UserName+" already exists";
+                                  callback();								  
+							   }
+							   else {
+								   success++;								   
+								   console.log(result);
+								   var data = {
+									    email:result.Email,
+										username:result.UserName,
+										password:'111',
+										first_name:result.First_Name,
+										last_name:result.Last_Name,
+										address:result.Address,
+										state:result.State,							
+										city:result.City,
+										zipcode:result.ZipCode,
+										dateofbirth:result.DOB							  
+								   };
+								   
+								   var obj = new User(data);
+								   obj.save(function(err){
+									   callback();
+								   });								   
+							   }
+						   })
+					   }
+				   });
+		        } , function(){
+					   if(i==results.length){
+						   var error_code = 0;
+						   if(error.length>0){
+							  error_code =1; 
+						   }
+						   res.send({error_code:error_code ,  err_desc:error , data:success});		   
+					   }
+		    });		   		   
 	    });			
 	});
 }
