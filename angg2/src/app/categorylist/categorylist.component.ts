@@ -11,7 +11,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class CategorylistComponent implements OnInit {
 
-  private siteUrl = "";
+  private siteUrl = "http://localhost:8081/";
   private categoryDetail = [];  
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private formBuilder: FormBuilder) { }
 

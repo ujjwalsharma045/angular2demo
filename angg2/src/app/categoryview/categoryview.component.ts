@@ -13,7 +13,7 @@ import {HttpClient} from '@angular/common/http';
 export class CategoryviewComponent implements OnInit {
 	
   private categoryDetail;
-  private siteUrl = "";
+  private siteUrl = "http://localhost:8081/";
   private categoryid = "";
   
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private formBuilder: FormBuilder) { }
@@ -24,7 +24,7 @@ export class CategoryviewComponent implements OnInit {
            this.categoryid = params['id'];
       });
 		
-	  this.http.get("category/view/"+this.categoryid).subscribe(result=>{
+	  this.http.get(this.siteUrl+"category/view/"+this.categoryid).subscribe(result=>{
 	      if(result['success']=="1"){
 			  this.categoryDetail = result['records'];
 		  }

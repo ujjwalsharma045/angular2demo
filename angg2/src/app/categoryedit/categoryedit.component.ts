@@ -12,7 +12,7 @@ import {HttpClient} from '@angular/common/http';
 export class CategoryeditComponent implements OnInit {
 
   CategoryForm:FormGroup;
-  private siteUrl = "";
+  private siteUrl = "http://localhost:8081/";
   private categoryDetail;
   private submitted = false;
   private categoryid = "";
@@ -20,7 +20,9 @@ export class CategoryeditComponent implements OnInit {
       this.CategoryForm = formBuilder.group({
 		 'title':[null, Validators.required],      
 		 'description':[null, Validators.required],
-		 'parent_id':[null, Validators.required],
+		 'meta_tag':[null, Validators.required],
+		 'meta_description':[null, Validators.required],
+		 'order':[null, Validators.required],		 
 		 'status':[null, Validators.required]			
 	  });
   }
@@ -43,7 +45,7 @@ export class CategoryeditComponent implements OnInit {
 		  var catedata = this.CategoryForm.value;
 		  this.http.post(this.siteUrl+"category/edit/"+this.categoryid , catedata).subscribe(result=>{
 		      if(result['success']=="1"){
-				  
+				 this.router.navigate(['./category/index']);	   
 			  }
 		  });
 	  }
