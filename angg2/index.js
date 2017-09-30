@@ -2,8 +2,8 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-var session = require('express-session');
 var passport = require('passport');
+var session = require('express-session');
 var LocalStrategy = require('passport-local').Strategy;
 app.use(session({
   secret: 'fhtfrfghyh',
@@ -23,9 +23,124 @@ passport.deserializeUser(function(id, done) {
   User.findById(id, function(err, user) {
     done(err, user);
   });
-});
+})
 
-passport.use('login', new LocalStrategy({
+var FacebookStrategy = require('passport-facebook').Strategy;
+passport.use('facebook' ,  
+	   new FacebookStrategy(
+		   {
+			 clientID:'1984509965158816',
+			 clientSecret:'0dff9490ce61d830b15c6a951972bbe2',
+			 callbackURL:'http://localhost:8081/auth/facebook/callback'			 
+		   }, 
+		   function(accessToken, refreshToken, profile, done){
+			    //console.log(req);
+			    console.log(accessToken);
+//console.log(refreshToken);
+//console.log(profile);
+			    //console.log(done);
+				
+				var data = {
+					email:'axva@gmail.com',
+					username:'xgvcvbcvb',
+					password:'111cvcv',
+					first_name:'cvb',
+					last_name:'dcvbcvbcvfg',
+					address:'dfvcbvcbg',
+					state:'sdfvcbvbsd',							
+					city:'vbn',
+					zipcode:'sdvbnfsf',
+					dateofbirth:'sdvbnvfsd'							
+				};
+				
+				var newUser = new User(data);
+				newUser.save(function(err) {
+                        if (err)
+                            throw err;
+
+                        // if successful, return the new user
+                        return done(null, newUser);
+                    });
+				        
+			    
+				
+               // set all of the facebook information in our user model
+               /*      newUser.facebook.id    = profile.id; // set the users facebook id                   
+                    newUser.facebook.token = token; // we will save the token that facebook provides to the user                    
+                    newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName; // look at the passport user profile to see how names are returned
+                    newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
+
+                    // save our user to the database
+                    newUser.save(function(err) {
+                        if (err)
+                            throw err;
+
+                        // if successful, return the new user
+                        return done(null, newUser);
+                    }); */
+			    /* 
+				var data = {
+					email:'abcd@gmail.com',
+					username:profile.displayName,
+					password:'111',
+					first_name:'displayName1',
+					last_name:'displayName2',
+					address:'displayName3',
+					state:'displayName4',							
+					city:'displayName5',
+					zipcode:'displayName6',
+					dateofbirth:'displayName7'							
+			  };
+			  
+			  User.findOrCreate({username:profile.displayName} , {data} , function(err , user){
+				 if(err){
+					 console.log(err);
+					 return done(err);
+				 }
+				 console.log(user);
+				 return done(null , user);
+			  });*/		
+		  }
+	  )
+);	
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+/*passport.use(new GoogleStrategy({
+    clientID: "779323195256-in4s0t2pclq59nd1cvc954hnack3k7fg.apps.googleusercontent.com",
+    clientSecret: "R1lj1wa4Bv_ompvBczCIKg5R",
+    callbackURL: "http://localhost:8081/auth/google/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+       console.log(accessToken);
+//console.log(refreshToken);
+//console.log(profile);
+			    //console.log(done);
+				
+				var data = {
+					email:'axva@gmail.com',
+					username:'xgvcvbcvb',
+					password:'111cvcv',
+					first_name:'cvb',
+					last_name:'dcvbcvbcvfg',
+					address:'dfvcbvcbg',
+					state:'sdfvcbvbsd',							
+					city:'vbn',
+					zipcode:'sdvbnfsf',
+					dateofbirth:'sdvbnvfsd'							
+				};
+				
+				var newUser = new User(data);
+				newUser.save(function(err) {
+					if(err)
+						throw err;
+					// if successful, return the new user
+					return done(null, newUser);
+                });
+				       			    
+    }
+));*/
+
+
+/*passport.use('login', new LocalStrategy({
     passReqToCallback : true
   },
   function(req, username, password, done) { 
@@ -60,7 +175,7 @@ passport.use('login', new LocalStrategy({
 		return done(null, user);     		
      }
    );
-}));
+}));*/
 
 /*var isAuthenticated = function (req, res, next) {
   console.log(req.isAuthenticated());
@@ -181,6 +296,25 @@ function isAdminAuthenticated(){
 	}
 }
 
+
+		
+app.get('/facebook' , passport.authenticate('facebook'));
+
+app.get('/auth/facebook/callback' , passport.authenticate('facebook' , { successRedirect : '/showusers', failureRedirect: '/showusers' }));
+
+app.get('/google', passport.authenticate('google', { scope: 'https://www.google.com/m8/feeds' }));
+
+app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/showusers' }), function(req, res) {
+	//res.send(req);
+		res.redirect('/showusers');
+});
+
+/* app.get('/auth/google/callback', function(req, res) {
+	
+	console.log(req);
+	//res.redirect('/showusers');
+}); */
+
 passport.isAuthenticated = isAuthenticated();
 
 passport.isAdminAuthenticated = isAdminAuthenticated();
@@ -223,7 +357,7 @@ var fs = require('fs');
 var async = require('async');	
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
-
+//var passportFacebook = require('./controllers/ThirdPartyAuth')(User , passport , LocalStrategy);
 require('./controllers/UserController')(app , func , mail, upload, storage, mailer, multer, validator, User , paginate , cors , dateFormat, dateDiff , dobByAge , json2csv , excelexport , pdf , passport , LocalStrategy, bCrypt, fs, async, PasswordGenerate, randtoken, handlebars, UserProfile);
 
 require('./controllers/ServiceController')(app , func , mail, upload, storage, mailer, multer, validator, Services , paginate , cors);
@@ -234,6 +368,8 @@ require('./controllers/HomeController')(app, func, mail, mailer, multer, validat
  
 require('./controllers/PageController')(app , func , mail, upload, storage, mailer, multer, validator, Page , paginate , cors , dateFormat, dateDiff , dobByAge , json2csv , excelexport , pdf , passport , LocalStrategy, bCrypt, slugify);
 require('./controllers/ProductController')(app , func , mail, upload, storage, mailer, multer, validator, Product, paginate , cors , dateFormat, dateDiff , dobByAge , json2csv , excelexport , pdf , passport , LocalStrategy, bCrypt, fs, async, PasswordGenerate, randtoken, handlebars);
+
+require('./controllers/CategoryController')(app , func , mail, upload, storage, mailer, multer, validator, Category, paginate , cors , dateFormat, dateDiff , dobByAge , json2csv , excelexport , pdf , passport , LocalStrategy, bCrypt, fs, async, PasswordGenerate, randtoken, handlebars);
 //require('./crons/crons')(schedule, mail, mailer, User);
 
 app.use(function(req, res) {

@@ -1,6 +1,8 @@
 module.exports = function(app , func , mail, upload, storage, mailer, multer, validator, Category, paginate , cors , dateFormat , dateDiff, dobByAge, json2csv, excel , pdf, passport , LocalStrategy, bCrypt , fs, async, PasswordGenerate, randtoken, handlebars, UserProfile){ 
     
 	var math = require('mathjs');  
+	var filereader = require('xlsx-to-json-lc');
+    var async = require('async');	
 	
 	app.post("/category/add" , function(req , res){
 		 if(req.method=="POST"){
@@ -160,6 +162,161 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 		 
 		    res.setHeader('Content-Type', 'application/json');
 		    res.send(JSON.stringify({authen:1 , success:1 , records:records}));	
+		});
+	});
+	
+	app.get("/category/importxls" , function(req , res){
+		var err_detail = Array();
+		var success = Array();
+		try{
+			filereader({
+				input:'files/category.xls',
+				output:null,
+				lowerCaseHeaders:true
+			},
+			function (err , xlsresult){
+				if(err){
+				  res.setHeader('Content-Type', 'application/json');
+		          res.send(JSON.stringify({authen:1 , success:1 , error:1 ,error_detail:'corrupt file'}));	
+				}
+			    else if(xlsresult.length>0){
+					var errcounter = 0;
+					var successcounter = 0;
+					async.forEachSeries(xlsresult , function(result , callback){
+                        //console.log(result);						
+						Category.find({title:result.name}).exec(function(err , records){
+							
+							if(records.length<=0){
+								var data = {
+								    title:result.name,
+									description:result.description,
+									parent_id:'',
+									meta_tag:result.meta_tag,
+									meta_description:result.meta_description,
+									order:result.sequence,
+									status:result.status
+								};
+								//console.log(data)
+								var categoryobj = new Category(data);
+								categoryobj.save(function(err){
+									if(err){
+										err_detail[errcounter] = "Category with name "+result.name+ " could not be added due to err "+err; 
+										errcounter++;
+									}
+									else {
+										success[successcounter] = "Category with name "+result.name+ " added successfully";
+										successcounter++;
+									}
+									callback();
+								});
+							}
+							else {								
+								err_detail[errcounter] = "Category with name "+result.name+ " already exists";
+								console.log(err_detail);
+								errcounter++;
+								callback();
+							}
+						});
+					} , function(){
+                        res.setHeader('Content-Type', 'application/json');
+						if(xlsresult.length==success.length){
+							res.send(JSON.stringify({authen:1 , success:1 , error:0 , records:success}));	
+						}
+						else if(xlsresult.length==err_detail.length){
+							res.send(JSON.stringify({authen:1 , success:1 , error:1 , error_detail:err_detail , records:success}));	
+						}
+                        else {
+							//if(success.length>0){								
+								res.send(JSON.stringify({authen:1 , success:1 , error:1 , error_detail:err_detail , records:success}));	
+							//}
+						}														                
+					});
+				}
+				else {
+					res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify({authen:1 , success:1 , error:1 , error_detail:'no data found'}));	
+				} 
+			});			
+		}
+		catch(e){
+			res.setHeader('Content-Type', 'application/json');
+		    res.send(JSON.stringify({authen:1 , success:1 , error:1 ,error_detail:'corrupt file'}));	
+		}
+	});
+	
+	app.get("/category/importcsv" , function(req, res){
+		var csv = require('csv-parser');
+        var records = Array();
+        var err_detail = Array();
+		var success = Array();
+		fs.createReadStream("files/category.csv").pipe(csv()).on("data" , function(data){
+		   records.push(data);
+		}).on("end" , function(){
+			console.log(records.length);
+			var errcounter = 0;
+			var successcounter = 0;
+			if(records.length>0){				 
+				 async.forEachSeries(records , function(recordsdetail , callback){
+					  console.log(recordsdetail);
+					  Category.find({title:recordsdetail.name}).exec(function(err , records){
+						  if(err){
+							 err_detail[errcounter] = err;
+							 errcounter++; 
+                             callback();							 
+						  }
+						  else if(records.length<=0){
+							  
+							  var data = {
+								  title:recordsdetail.name,
+								  description:recordsdetail.description,
+								  parent_id:'',
+								  meta_tag:recordsdetail.meta_tag,
+								  meta_description:recordsdetail.meta_description,
+								  order:recordsdetail.sequence,
+								  status:recordsdetail.status
+							  };
+							  console.log(data);
+							  var categoryobj = new Category(data);
+							  categoryobj.save(function(err){								  
+								  if(err){
+									  err_detail[errcounter] = "Category with name "+recordsdetail.name+" could not be added successfully";
+							          errcounter++; 
+									  callback();
+								  }
+								  else {
+									  success[successcounter] = "Category with name "+recordsdetail.name+" added successfully";
+                                      successcounter++;	
+                                      callback();									  
+								  }
+							  });
+						  }
+						  else {
+							  err_detail[errcounter] = "Category with name "+recordsdetail.name+" already exists";
+							  errcounter++; 
+                              callback();							  
+						  }
+					  });
+				   }, function(){
+					  res.setHeader('Content-Type', 'application/json');  
+				      if(success.length>0){
+						  if(err_detail.length>0){
+						      res.send(JSON.stringify({authen:1 , success:1 , error:1 , error_detail:err_detail , records:success}));	
+						  }
+						  else {
+							  res.send(JSON.stringify({authen:1 , success:1 , error:0 , error_detail:err_detail , records:success}));	
+						  }
+					  }
+					  else if(err_detail.length>0){
+						  res.send(JSON.stringify({authen:1 , success:1 , error:1 , error_detail:err_detail}));	
+					  }
+			     });
+			}
+			else {
+				 err_detail[errcounter] = "No data found";
+				 errcounter++; 
+				 res.setHeader('Content-Type', 'application/json'); 
+				 res.send(JSON.stringify({authen:1 , success:1 , error:1 , error_detail:err_detail}));	
+			}
 		});
 	});
 }

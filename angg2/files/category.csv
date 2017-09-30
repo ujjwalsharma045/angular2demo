@@ -1,0 +1,5 @@
+name,description,parent_id,meta_tag,meta_description,sequence,status
+Firstcategory_11,Description1_1,parentid1,atag,aaaa,1,A
+Secondcategory_21,Description2_1,parentid2,btag,bbbb,5,A
+Thirdcategory_31,Description3_1,parentid3,ctag,cccc,7,I
+Fourthcategory_41,Description4_1,parentid4,dtag,dddd,9,A
