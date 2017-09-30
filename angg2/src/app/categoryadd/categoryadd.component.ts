@@ -11,12 +11,12 @@ import {HttpClient} from '@angular/common/http';
 })
 export class CategoryaddComponent implements OnInit {
 
-  CategoryForm:FormGroup ;
+  categoryForm:FormGroup ;
   private siteUrl = "http://localhost:8081/";
   private submitted = false;
   
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private formBuilder: FormBuilder) { 
-     this.CategoryForm = formBuilder.group({
+     this.categoryForm = formBuilder.group({
 		 'title':[null, Validators.required],      
 		 'description':[null, Validators.required],
 		 'meta_tag':[null, Validators.required],
@@ -29,10 +29,10 @@ export class CategoryaddComponent implements OnInit {
   ngOnInit() {
   }
 
-  add(){
+  addcategory(){
 	  this.submitted = true;
-	  if(this.CategoryForm.valid){
-		  var catedata = this.CategoryForm.value;
+	  if(this.categoryForm.valid){
+		  var catedata = this.categoryForm.value;
 		  this.http.post(this.siteUrl+"category/add" , catedata).subscribe(result=>{
 		      if(result['success']=="1"){
 				  this.router.navigate(['./category/index']);	  

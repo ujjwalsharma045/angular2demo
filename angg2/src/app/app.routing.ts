@@ -30,6 +30,11 @@ import { ProducteditComponent } from './productedit/productedit.component';
 import { ProductviewComponent } from './productview/productview.component';
 import { ProductlistComponent } from './productlist/productlist.component';
 
+import { CategorylistComponent } from './categorylist/categorylist.component';
+import { CategoryaddComponent } from './categoryadd/categoryadd.component';
+import { CategoryeditComponent } from './categoryedit/categoryedit.component';
+import { CategoryviewComponent } from './categoryview/categoryview.component';
+
 export const AppRoutes: Routes = [
     {
         path: '',
@@ -184,6 +189,31 @@ export const AppRoutes: Routes = [
            { path: '', component:FooterComponent, outlet:'footer'}
 		],
     },
+	{
+        path: 'category/add',
+		component:CategoryaddComponent,
+		data:{title:'Add Category'}		
+    },
+    {
+        path: 'category/edit/:id',
+		component:CategoryeditComponent,
+		data:{title:'Edit Category'}		
+    },
+    {
+        path: 'category/view/:id',
+		component:CategoryviewComponent,
+		data:{title:'View Category'}		
+    },
+	{
+        path: 'category',
+        component: CategorylistComponent,
+		data:{title:'Category'},
+		children:[
+		   { path: '', component:SidebarComponent, outlet:'sidebar'}, 
+           { path: '', component:NavbarComponent, outlet:'navbar'},
+           { path: '', component:FooterComponent, outlet:'footer'}
+		],
+    }
 ]
 
 export const LoginRoutes: Routes = [    

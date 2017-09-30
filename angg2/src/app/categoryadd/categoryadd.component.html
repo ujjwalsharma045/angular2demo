@@ -1,3 +1,85 @@
-<p>
-  categoryadd works!
-</p>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-8 col-md-7">
+			<div class="card">
+				<div class="header">				    
+					<h4 class="title">Add Category</h4>
+				</div>
+				<div class="content">
+					<form [formGroup]="categoryForm">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Title</label>
+									<input type="text" [formControl]="categoryForm.controls['title']" class="form-control border-input" placeholder="Title" value="">
+									<div *ngIf="categoryForm.controls['title'].hasError('required') && submitted" class="alert alert-danger">Enter title.</div>          
+								</div>
+							</div>
+						</div>
+						
+                        <div class="row">						
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="exampleInputEmail1">Content</label>
+									<ckeditor  [formControl]="categoryForm.controls['description']" [config]="{uiColor: '#99000'}"></ckeditor>
+									<!-- <textarea [formControl]="pageForm.controls['content']" class="form-control border-input" placeholder="Content"></textarea> -->
+									<div *ngIf="categoryForm.controls['description'].hasError('required') && submitted" class="alert alert-danger">Enter Description.</div>          
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">						
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="exampleInputEmail1">Meta Tag</label>									
+									<textarea [formControl]="categoryForm.controls['meta_tag']" class="form-control border-input" placeholder="Meta Tag"></textarea>
+									<div *ngIf="categoryForm.controls['meta_tag'].hasError('required') && submitted" class="alert alert-danger">Enter Meta Tag.</div>          
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">						
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="exampleInputEmail1">Meta Description</label>
+									<textarea [formControl]="categoryForm.controls['meta_description']" class="form-control border-input" placeholder="Meta Description"></textarea>
+									<div *ngIf="categoryForm.controls['meta_description'].hasError('required') && submitted" class="alert alert-danger">Enter Meta Description.</div>          
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Order</label>
+									<input type="text" [formControl]="categoryForm.controls['order']" class="form-control border-input" placeholder="Cost Price" value="">
+									<div *ngIf="categoryForm.controls['order'].hasError('required') && submitted" class="alert alert-danger">Enter cost price.</div>          
+								</div>
+							</div>
+						</div>
+						
+											
+                        <div class="row">						
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Status</label>
+									<select name="status" [formControl]="categoryForm.controls['status']" class="form-control border-input">
+									   <option value="A">Active</option>
+									   <option value="I">Inctive</option>
+									</select>								
+									<div *ngIf="categoryForm.controls['status'].hasError('required') && submitted" class="alert alert-danger">Select status.</div>          
+								</div>
+							</div>
+						</div>												
+
+						<div class="text-center">
+							<button type="button" (click)="addcategory()" class="btn btn-info btn-fill btn-wd">Submit</button>
+						</div>
+						<div class="clearfix"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

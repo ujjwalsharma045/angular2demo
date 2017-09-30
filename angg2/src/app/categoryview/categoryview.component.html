@@ -1,3 +1,43 @@
-<p>
-  categoryview works!
-</p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-5">
+                <div class="card card-user">                    
+                    <hr>
+                    <div class="text-center">
+                        <div class="row">
+						
+                            <div class="col-md-4">
+                                <h5>{{categoryDetail._id}}</h5><br /><small>Category ID</small>
+							</div>
+                            
+							<div class="col-md-4">
+                                <h5>{{categoryDetail.title}}</h5><br /><small>Title</small>
+							</div>
+                            <div class="col-md-4">							
+								<h5 [innerHTML]="categoryDetail.description"></h5><br /><small >Description</small>
+                            </div>
+							
+							<div class="col-md-4">
+                                <h5>{{categoryDetail.meta_tag}}</h5><br /><small>Meta Tag</small>
+							</div>
+                            <div class="col-md-4">							
+								<h5 [innerHTML]="categoryDetail.meta_description"></h5><br /><small >Meta Description</small>
+                            </div>
+							
+							<div class="col-md-4">
+                                <h5>{{categoryDetail.order}}</h5><br /><small>Order</small>
+							</div>
+							
+                            <div class="col-md-4">
+                                <h5>{{categoryDetail.status}}</h5><br /><small>Status</small>
+                            </div>
+							
+							<div class="col-md-4">
+                                <h5>{{categoryDetail.created_at}}</h5><br /><small>Created</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+        </div>
+    </div>
