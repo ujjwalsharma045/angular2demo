@@ -32,20 +32,20 @@ export class CategoryeditComponent implements OnInit {
           this.categoryid = params['id'];
       });
 
-      this.http.get("category/view/"+this.categoryid).subscribe(result=>{
+      this.http.get(this.siteUrl+"category/view/"+this.categoryid).subscribe(result=>{
 	      if(result['success']=="1"){
-			  this.categoryDetail = result['records'];
+			  this.categoryForm.patchValue(result['records']);
 		  }
 	  });	  
   }
 
-  addcategory(){
+  editcategory(){
 	  this.submitted = true;
 	  if(this.categoryForm.valid){
 		  var catedata = this.categoryForm.value;
 		  this.http.post(this.siteUrl+"category/edit/"+this.categoryid , catedata).subscribe(result=>{
 		      if(result['success']=="1"){
-				 this.router.navigate(['./category/index']);	   
+				 this.router.navigate(['./category']);	   
 			  }
 		  });
 	  }

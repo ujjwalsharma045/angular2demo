@@ -35,7 +35,7 @@ export class CategoryaddComponent implements OnInit {
 		  var catedata = this.categoryForm.value;
 		  this.http.post(this.siteUrl+"category/add" , catedata).subscribe(result=>{
 		      if(result['success']=="1"){
-				  this.router.navigate(['./category/index']);	  
+				  this.router.navigate(['./category']);	  
 			  }
 		  });
 	  }

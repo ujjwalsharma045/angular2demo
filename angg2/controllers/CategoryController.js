@@ -52,16 +52,16 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
             var condition = {
 				title:req.body.title,
 			};						
-			
+			var error = false;
 			Category.find(condition).exec(function(err , response){
 			    if(response.length>=2){
 					error = true;
 					errormessage = "Category already exists.";  					   
 				}
 				else if(response.length>0){
-					if(response[0]['_id']!=req.body.id){
+					if(response[0]['_id']!=req.params.id){
 					   error = true;
-                       errormessage = "Category already exists.";  					   
+                       errormessage = "Category already exists2.";  					   
 					}
 				}
 				
@@ -78,7 +78,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 			        };
 					
 			        var findcondition = {
-					   _id:req.body.id	
+					   _id:req.params.id	
 					};
 					
 					var category = new Category(data);
