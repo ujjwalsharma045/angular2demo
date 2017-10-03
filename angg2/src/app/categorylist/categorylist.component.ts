@@ -16,7 +16,7 @@ export class CategorylistComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-	  this.http.get(this.siteUrl+"/category/index").subscribe(result=>{
+	  this.http.get(this.siteUrl+"category/index").subscribe(result=>{
 		  if(result['success']=="1"){
 			 this.categoryDetail = result['records'];
 		  }
@@ -24,10 +24,14 @@ export class CategorylistComponent implements OnInit {
   }
   
   remove(id){	
-	  this.http.delete(this.siteUrl+"/category/delete/"+id).subscribe(result=>{
+	  this.http.delete(this.siteUrl+"category/delete/"+id).subscribe(result=>{
 	       if(result['success']=="1"){
 			   
 		   }
 	  });
+  }
+  
+  sortfield(fieldname){
+	  
   }
 }

@@ -1,3 +1,113 @@
-<p>
-  categorylist works!
-</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+				    <div class="" style="float:left">
+                        <h4 class="title">Categories</h4>
+                       <p class="category">List of Category</p>
+					</div>   
+					<div class="" style="margin-left:85%;float:left">
+						<a [routerLink]="['../category/add']" class="btn btn-info btn-fill btn-wd">
+							Add Category
+						</a>
+					</div>
+                </div>
+                <div class="content table-responsive table-full-width">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+									<a href="javascript:void(0)" (click)="sortlist('_id')">
+										ID		
+									</a>  
+									<span [ngClass]="{disabled:search.sortfield != '_id'}">
+									   <span *ngIf="!sortreverse">^</span>
+									   <span *ngIf="sortreverse">v</span> 
+									</span>
+							    </th>
+								<th>
+								    <a href="javascript:void(0)" (click)="sortlist('title')">
+									   Title
+								    </a>	
+								    <span [ngClass]="{disabled:search.sortfield != 'title'}">
+									   <span *ngIf="!sortreverse">^</span>
+									   <span *ngIf="sortreverse">v</span>
+								    </span>
+								</th>
+								<th>
+								    <a href="javascript:void(0)" (click)="sortlist('order')">
+									   Order
+								    </a>	 
+								    <span [ngClass]="{disabled:search.sortfield != 'order'}">
+									   <span *ngIf="!sortreverse">^</span>
+									   <span *ngIf="sortreverse">v</span>
+								    </span>
+								</th>
+								<th>
+								    <a href="javascript:void(0)" (click)="sortlist('status')">
+									   Status
+								    </a>	 
+								    <span [ngClass]="{disabled:search.sortfield != 'status'}">
+									   <span *ngIf="!sortreverse">^</span>
+									   <span *ngIf="sortreverse">v</span>
+								    </span>
+								</th>
+								<th>
+								    <a href="javascript:void(0)" (click)="sortlist('created_at')">
+									   Created
+								    </a> 
+								    <span [ngClass]="{disabled:search.sortfield != 'created_at'}">
+									    <span *ngIf="!sortreverse">^</span>
+									    <span *ngIf="sortreverse">v</span>
+								    </span>
+								</th>
+								<th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let category of categoryDetail">
+                                <td>{{category._id}}</td>
+							    <td>{{category.title}}</td>
+							    <td>{{category.order}}</td>
+								<td>{{category.status}}</td>
+							    <td>{{category.created_at}}</td>
+								<td>
+								    <a [routerLink]="['../category/view' , user._id]">
+									   <i class="fa fa-eye" aria-hidden="true"></i>
+									</a>
+								    <a [routerLink]="['../category/edit' , user._id]">
+								       <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+								    </a>
+								    <a href="javascript:void(0)" (click)="remove(category._id)">
+									   <i class="fa fa-trash-o" aria-hidden="true"></i>
+									</a> 
+								</td>	   
+                            </tr>
+                        </tbody>
+                    </table>
+					<div style="margin-left:30%">
+						<ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+							<li [ngClass]="{disabled:pager.currentPage === 1}">
+								<a href="javascript:void(0)" (click)="paging(1)">First</a>
+							</li>
+							<li [ngClass]="{disabled:pager.currentPage === 1}">
+								<a href="javascript:void(0)" (click)="paging(pager.currentPage - 1)">Previous</a>
+							</li>
+							<li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+								<a href="javascript:void(0)" (click)="paging(page)">{{page}}</a>
+							</li>
+							<li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+								<a href="javascript:void(0)" (click)="paging(pager.currentPage + 1)">Next</a>
+							</li>
+							<li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+								<a href="javascript:void(0)" (click)="paging(pager.totalPages)">Last</a>
+							</li>
+						</ul>
+                    </div>					
+                </div>
+            </div>
+        </div>       
+    </div>
+</div>
+
