@@ -12,26 +12,33 @@ import {HttpClient} from '@angular/common/http';
 export class CategorylistComponent implements OnInit {
 
   private siteUrl = "http://localhost:8081/";
-  private categoryDetail = [];  
+  private categoryDetail = "";  
+  private search = {
+	  sortfield:'_id'
+  };
+  private pager = {
+	  pages:""
+  };
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
 	  this.http.get(this.siteUrl+"category/index").subscribe(result=>{
 		  if(result['success']=="1"){
+			  alert("asdf");
 			 this.categoryDetail = result['records'];
 		  }
 	  });
   }
   
   remove(id){	
-	  this.http.delete(this.siteUrl+"category/delete/"+id).subscribe(result=>{
+	  this.http.delete(this.siteUrl+"category/remove/"+id).subscribe(result=>{
 	       if(result['success']=="1"){
-			   
+			   location.reload();
 		   }
 	  });
   }
   
-  sortfield(fieldname){
+  sortlist(fieldname){
 	  
   }
 }

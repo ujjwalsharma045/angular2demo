@@ -73,10 +73,10 @@
 								<td>{{category.status}}</td>
 							    <td>{{category.created_at}}</td>
 								<td>
-								    <a [routerLink]="['../category/view' , user._id]">
+								    <a [routerLink]="['../category/view' , category._id]">
 									   <i class="fa fa-eye" aria-hidden="true"></i>
 									</a>
-								    <a [routerLink]="['../category/edit' , user._id]">
+								    <a [routerLink]="['../category/edit' , category._id]">
 								       <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 								    </a>
 								    <a href="javascript:void(0)" (click)="remove(category._id)">

@@ -113,7 +113,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 	
 	app.get("/category/index" , function(req , res){
          var condition = {};
-         var perPage = 10;	
+         var perPage = 40;	
          var currentpage = 1;
 		 
 	     Category.find(condition).count().exec(function(err , totalrecords){
