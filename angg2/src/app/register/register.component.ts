@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
-import { FormBuilder, Validators,FormGroup,FormControl } from '@angular/forms';
+import { FormBuilder, Validators,FormGroup,FormControl, AbstractControl} from '@angular/forms';
 import { Http, RequestOptions } from '@angular/http';
 import {HttpClient} from '@angular/common/http';
 
@@ -19,21 +19,23 @@ export class RegisterComponent implements OnInit {
     constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private formBuilder: FormBuilder) { 
         this.registerForm = formBuilder.group({      
 			'username':[null, Validators.required],      
-			'email':[null, Validators.required],
+			'email':[null, Validators.required],						
 			'password':[null, Validators.required],
+			'confirm_password':[null, Validators.required],
 			'first_name':[null, Validators.required],
 			'last_name':[null, Validators.required],
 			'address' : [null, Validators.required],
 		    'city' : [null, Validators.required],
 		    'state' : [null, Validators.required]
-        });
+        } , {validator:this.matchPassword});
     }
 
     ngOnInit() {
 		
     }
 	
-	register(){  
+	register(){
+        //console.log(this.registerForm.value);		
 	    this.submitted = true;	      
 	    if(this.registerForm.valid){ 
 		    this.http.post(this.registerUrl+"register" , this.registerForm.value).subscribe(result => {
@@ -43,4 +45,22 @@ export class RegisterComponent implements OnInit {
 			}); 			
 	    }		
     }
+	
+	matchPassword(AC: AbstractControl){
+		//console.log(passwordval);
+		let password = AC.get('password').value; // to get value in input tag
+        let confirmPassword = AC.get('confirm_password').value; // to get value in input tag
+        if(password!="" && confirmPassword!="" && password != confirmPassword) {            
+            AC.get('confirm_password').setErrors( {matchPassword: true} )
+        } else {            
+            return null
+        }
+		//alert(group.controls['confirm_password'].value);
+		/*if(group.controls['password'].value!=group.controls['confirm_password'].value){
+			return { password_match:true };
+		}
+		else {
+			return null;
+		}*/
+	}
 }

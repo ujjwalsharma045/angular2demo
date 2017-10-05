@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
-import { FormBuilder, Validators,FormGroup,FormControl } from '@angular/forms';
+import { FormBuilder, Validators,FormGroup,FormControl , AbstractControl } from '@angular/forms';
 import { Http, RequestOptions } from '@angular/http';
 import {HttpClient} from '@angular/common/http';
 
@@ -15,6 +15,7 @@ export class ProducteditComponent implements OnInit {
   private submitted = false;
   private siteUrl = "http://localhost:8081/";
   private productid;
+  private productsection = false;
   constructor(private route:ActivatedRoute, private router:Router, private http:HttpClient, private formBuilder:FormBuilder) { 
      this.productForm = formBuilder.group({
 		 'title':[null, Validators.required],
@@ -23,10 +24,11 @@ export class ProducteditComponent implements OnInit {
 		 'meta_description':[null , Validators.required],
 		 'price':[null , Validators.required],
 		 'cost_price':[null , Validators.required],
-		 'discount_type':[null , Validators.required],
-		 'discount':[null , Validators.required],
+		 'discount_flag':[null , Validators.required],
+		 'discount_type':[null],
+		 'discount':[null],
 		 'status':[null , Validators.required]
-	 });
+	 }, {validator:this.checkDiscount});
   }
 
   ngOnInit() {
@@ -42,6 +44,17 @@ export class ProducteditComponent implements OnInit {
 	  });
   }
 
+  getproductBlock(val){	  
+	  if(val=="Y"){		 
+		 this.productsection = true;
+	  } 
+      else {
+         this.productForm.patchValue({'discount_type':''});
+		 this.productForm.patchValue({'discount':''}); 		  
+		 this.productsection = false;
+	  }
+  } 
+  
   editproduct(){
 	  this.submitted = true;
 	  if(this.productForm.valid){
@@ -52,6 +65,29 @@ export class ProducteditComponent implements OnInit {
 			 }
 		  }); 
 	  }
-  } 
-  
+  }
+
+  checkDiscount(AC:AbstractControl){
+	  let discount = AC.get('discount_flag').value;
+	  let discountype = AC.get('discount_type').value;
+	  let discountvalue = AC.get('discount').value;
+	  
+	  if(discount=="Y"){		  		 
+		  if(discountype!="" && discountvalue!=""){
+			 return null; 
+		  }
+		  else {
+			  if(discountype==""){
+			      AC.get('discount_type').setErrors( {checkDiscount: true} );
+		      }
+		  
+			  if(discountvalue==""){
+				  AC.get('discount').setErrors( {checkDiscount: true} );
+			  }
+		  }
+	  }
+	  else {
+		  return null;
+	  }
+  }     
 }

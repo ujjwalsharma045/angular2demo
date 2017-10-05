@@ -319,4 +319,13 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 			}
 		});
 	});
+
+    app.get("/category/total" , function(req , res){
+	   Category.find().count().exec(function(err , count){
+		   if(err)
+			   throw err;
+       	   res.setHeader('Content-Type', 'application/json');
+		   res.send(JSON.stringify({authen:1 , success:1 , categories:count}));	   
+	   });
+	});
 }

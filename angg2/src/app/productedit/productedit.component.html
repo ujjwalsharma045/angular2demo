@@ -4,7 +4,7 @@
 			<div class="card">
 				<div class="header">
 				    
-					<h4 class="title">Add Product</h4>
+					<h4 class="title">Edit Product</h4>
 				</div>
 				<div class="content">
 					<form [formGroup]="productForm">
@@ -69,26 +69,40 @@
 							</div>
 						</div>
 						
-						<div class="row">
+						<div class="row">						
 							<div class="col-md-12">
 								<div class="form-group">
-									<label>Discount Type</label>
-									<input type="text" [formControl]="productForm.controls['discount_type']" class="form-control border-input" placeholder="Discount Type" value="">
-									<div *ngIf="productForm.controls['discount_type'].hasError('required') && submitted" class="alert alert-danger">Enter Discount Type.</div>          
+									<label>Discount</label>
+									<select name="discount_flag" [formControl]="productForm.controls['discount_flag']" (change)="getproductBlock($event.target.value)" class="form-control border-input">
+									   <option value="Y">Yes</option>
+									   <option value="N" selected>No</option>
+									</select>																	
+								</div>
+							</div>
+						</div> 
+						
+						<div *ngIf="productsection">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Discount Type</label>
+										<input type="text" [formControl]="productForm.controls['discount_type']" class="form-control border-input" placeholder="Discount Type" value="">										
+										<div class="alert alert-danger" *ngIf="productForm.controls['discount_type'].errors && submitted">Enter Discount Type.</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Discount</label>
+										<input type="text" [formControl]="productForm.controls['discount']" class="form-control border-input" placeholder="Discount" value="">										
+                                        <div class="alert alert-danger" *ngIf="productForm.controls['discount'].errors && submitted">Enter Discount.</div>										
+									</div>
 								</div>
 							</div>
 						</div>
 						
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label>Discount</label>
-									<input type="text" [formControl]="productForm.controls['discount']" class="form-control border-input" placeholder="Discount" value="">
-									<div *ngIf="productForm.controls['discount'].hasError('required') && submitted" class="alert alert-danger">Enter Discount.</div>          
-								</div>
-							</div>
-						</div>
-											
                         <div class="row">						
 							<div class="col-md-12">
 								<div class="form-group">

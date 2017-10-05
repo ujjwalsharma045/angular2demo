@@ -128,4 +128,13 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 				});				
 		  }
     }); 			
+
+    app.get("/product/total", function(req , res){          
+		  Product.find().count().exec(function(err , count){
+			 if(err)
+			   throw err;
+             res.setHeader('Content-Type', 'application/json');	
+			 res.send(JSON.stringify({'authen':1 , 'success':1 , 'products':count}));			
+		  });
+    });
 }

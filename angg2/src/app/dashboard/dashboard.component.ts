@@ -15,7 +15,8 @@ export class DashboardComponent implements OnInit{
 	siteUrl = 'http://localhost:8081/';
 	private totaluser;
 	private totalpage;
-	
+	private totalcategory;
+	private totalproduct;
 	constructor(private http: HttpClient) { 
 	
 	}
@@ -119,7 +120,17 @@ export class DashboardComponent implements OnInit{
 		this.getTotalPage().subscribe(result => {
 		    //console.log(result['pages']);			
 		    this.totalpage  = result['pages'];	 	   
-	    });				
+	    });
+
+        this.getCategoryCount().subscribe(result => {
+		    //console.log(result['pages']);			
+		    this.totalcategory  = result['categories'];	 	   
+	    });
+
+        this.getProductCount().subscribe(result => {
+		    //console.log(result['pages']);			
+		    this.totalproduct  = result['products'];	 	   
+	    });  		
     }
 	
 	getTotalUser(){
@@ -128,5 +139,13 @@ export class DashboardComponent implements OnInit{
 
 	getTotalPage(){
 		return this.http.get(this.siteUrl+"page/total");
+	}
+	
+	getCategoryCount(){
+		return this.http.get(this.siteUrl+"category/total");
+	}
+	
+	getProductCount(){
+		return this.http.get(this.siteUrl+"product/total");
 	}
 }
