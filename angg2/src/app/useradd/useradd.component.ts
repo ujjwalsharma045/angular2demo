@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
-import { FormBuilder, Validators,FormGroup,FormControl } from '@angular/forms';
+import { FormBuilder, Validators,FormGroup,FormControl , AbstractControl} from '@angular/forms';
 import { Http, RequestOptions } from '@angular/http';
 import {HttpClient} from '@angular/common/http';
 
@@ -24,13 +24,14 @@ export class UseraddComponent implements OnInit {
 			'username':[null, Validators.required],      
 			'email':[null, Validators.required],
 			'password':[null, Validators.required],
+			'confirm_password':[null, Validators.required],
 			'first_name':[null, Validators.required],
 			'last_name':[null, Validators.required],
 			'address' : [null, Validators.required],
 		    'city' : [null, Validators.required],
 		    'state' : [null, Validators.required],
 			'zipcode' : [null]
-        });
+        },{validator:this.matchPassword});
     }
 
     ngOnInit() {
@@ -47,4 +48,15 @@ export class UseraddComponent implements OnInit {
 			}); 			
 	    }		
     }
+	
+	matchPassword(AC:AbstractControl){
+		let passwordfield = AC.get('password').value;
+		let confirm_password = AC.get('confirm_password').value;
+		if(passwordfield!="" && confirm_password!="" && passwordfield!=confirm_password){
+			AC.get('confirm_password').setErrors({mismatch:true});
+		}
+		else {			
+			return null
+		}
+	}
 }

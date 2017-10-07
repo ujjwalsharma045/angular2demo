@@ -6,7 +6,35 @@
 					<h4 class="title">Add Category</h4>
 				</div>
 				<div class="content">
-					<form [formGroup]="categoryForm">
+					<form [formGroup]="categoryForm">					
+					    <div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Category Type</label>
+									<select name="category_type"  [formControl]="categoryForm.controls['category_type']" (change)="setCategoryList($event.target.value)">
+									    <option value="P">Parent</option>
+										<option value="S">Sub</option>
+									</select>                                                                        
+									<div *ngIf="categoryForm.controls['category_type'].hasError('required') && submitted" class="alert alert-danger">Select category type.</div>          
+								</div>
+							</div>
+						</div>
+						
+						<div *ngIf="categoylistsection">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Category List</label>
+										<select name="category" [formControl]="categoryForm.controls['category']" class="form-control border-input">
+										   <option value="" selected>----</option>
+										   <option value="1">Active</option>									   
+										</select>								
+										<div *ngIf="categoryForm.controls['category'].errors && submitted" class="alert alert-danger">Select category.</div>          
+									</div>
+								</div>
+							</div>
+						</div>	
+												
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
@@ -16,7 +44,7 @@
 								</div>
 							</div>
 						</div>
-						
+																		
                         <div class="row">						
 							<div class="col-md-12">
 								<div class="form-group">
@@ -57,8 +85,7 @@
 								</div>
 							</div>
 						</div>
-						
-											
+																
                         <div class="row">						
 							<div class="col-md-12">
 								<div class="form-group">

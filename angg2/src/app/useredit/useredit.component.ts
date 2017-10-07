@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
-import { FormBuilder, Validators,FormGroup,FormControl } from '@angular/forms';
+import { FormBuilder, Validators,FormGroup,FormControl , AbstractControl} from '@angular/forms';
 import { Http, RequestOptions } from '@angular/http';
 import {HttpClient} from '@angular/common/http';
 
@@ -23,11 +23,13 @@ export class UsereditComponent implements OnInit {
         this.userForm = formBuilder.group({      
 			'first_name':[null, Validators.required],
 			'last_name':[null, Validators.required],
+			'password':[""],
+			'confirm_password':[""],
 			'address' : [null, Validators.required],
 		    'city' : [null, Validators.required],
 		    'state' : [null, Validators.required],
 			'zipcode' : [null]
-        });	    
+        },{validator:this.checkPassword});	    
     }
 
     ngOnInit() {
@@ -56,4 +58,35 @@ export class UsereditComponent implements OnInit {
 	    return this.http.get(this.userUrl+"view/"+id);
     }
 
+	checkPassword(AC:AbstractControl){
+	   let passwordstrng = AC.get('password').value;
+       let confirmpasswordstrng = AC.get('confirm_password').value;
+	   AC.get('password').setErrors(null);
+	   AC.get('confirm_password').setErrors(null);
+	   if(passwordstrng!=""){
+		   if(confirmpasswordstrng==""){
+		       AC.get('confirm_password').setErrors({required:true});
+		   }
+		   else if(confirmpasswordstrng!=passwordstrng){
+		      AC.get('confirm_password').setErrors({mismatch:true});
+		   }
+		   else {
+			  return null; 
+		   }
+	   }
+	   else if(confirmpasswordstrng!=""){
+		   if(passwordstrng==""){
+		      AC.get('password').setErrors({required:true});
+		   }
+		   else if(confirmpasswordstrng!=passwordstrng){
+		      AC.get('confirm_password').setErrors({mismatch:true});
+		   }
+		   else {
+			  return null; 
+		   }
+	   }
+	   else {		   
+		   return null;
+	   }        	  
+	} 
 }

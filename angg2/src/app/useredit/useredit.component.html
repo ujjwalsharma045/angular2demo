@@ -23,6 +23,24 @@
 								</div>
 							</div>
 						</div>
+						
+						<div class="row">
+						    <div class="col-md-6">
+								<div class="form-group">
+									<label>Password</label>
+									<input type="password" [formControl]="userForm.controls['password']" class="form-control border-input" placeholder="Password" value="">
+									<div *ngIf="userForm.controls['password'].hasError('required') && submitted" class="alert alert-danger">Enter password.</div>          
+								</div>
+							</div>
+                            <div class="col-md-6">
+								<div class="form-group">
+									<label>Confirm Password</label>
+									<input type="password" [formControl]="userForm.controls['confirm_password']" class="form-control border-input" placeholder="Confirm Password" value="">
+									<div *ngIf="userForm.controls['confirm_password'].hasError('required') && submitted" class="alert alert-danger">Enter confirm password.</div>          
+									<div *ngIf="userForm.controls['confirm_password'].hasError('mismatch') && submitted" class="alert alert-danger">Password and confirm password must be same.</div>          
+								</div>
+							</div>							
+						</div>
 
 						<div class="row">
 							<div class="col-md-12">

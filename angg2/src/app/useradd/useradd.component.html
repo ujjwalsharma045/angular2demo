@@ -8,27 +8,38 @@
 				<div class="content">
 					<form [formGroup]="userForm">
 						<div class="row">
-							<div class="col-md-3">
+							<div class="col-md-6">
 								<div class="form-group">
 									<label>Username</label>
 									<input type="text" [formControl]="userForm.controls['username']" class="form-control border-input" placeholder="Username" value="">
 									<div *ngIf="userForm.controls['username'].hasError('required') && submitted" class="alert alert-danger">Enter user name.</div>          
 								</div>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-6">
 								<div class="form-group">
 									<label for="exampleInputEmail1">Email address</label>
 									<input type="email" [formControl]="userForm.controls['email']" class="form-control border-input" placeholder="Email">
 									<div *ngIf="userForm.controls['email'].hasError('required') && submitted" class="alert alert-danger">Enter email Addresss.</div>          
 								</div>
-							</div>
-							<div class="col-md-5">
+							</div>							
+						</div>
+						
+						<div class="row">
+						    <div class="col-md-6">
 								<div class="form-group">
 									<label>Password</label>
 									<input type="password" [formControl]="userForm.controls['password']" class="form-control border-input" placeholder="Password" value="">
 									<div *ngIf="userForm.controls['password'].hasError('required') && submitted" class="alert alert-danger">Enter password.</div>          
 								</div>
 							</div>
+                            <div class="col-md-6">
+								<div class="form-group">
+									<label>Confirm Password</label>
+									<input type="password" [formControl]="userForm.controls['confirm_password']" class="form-control border-input" placeholder="Confirm Password" value="">
+									<div *ngIf="userForm.controls['confirm_password'].hasError('required') && submitted" class="alert alert-danger">Enter confirm password.</div>          
+									<div *ngIf="userForm.controls['confirm_password'].hasError('mismatch') && submitted" class="alert alert-danger">Password and confirm password must be same.</div>          
+								</div>
+							</div>							
 						</div>
 
 						<div class="row">

@@ -71,22 +71,23 @@ export class ProducteditComponent implements OnInit {
 	  let discount = AC.get('discount_flag').value;
 	  let discountype = AC.get('discount_type').value;
 	  let discountvalue = AC.get('discount').value;
-	  
+	  AC.get('discount_type').setErrors(null);
+      AC.get('discount').setErrors(null);
 	  if(discount=="Y"){		  		 
 		  if(discountype!="" && discountvalue!=""){
 			 return null; 
 		  }
 		  else {
 			  if(discountype==""){
-			      AC.get('discount_type').setErrors( {checkDiscount: true} );
+			      AC.get('discount_type').setErrors( {required: true} );
 		      }
 		  
 			  if(discountvalue==""){
-				  AC.get('discount').setErrors( {checkDiscount: true} );
+				  AC.get('discount').setErrors( {required: true} );
 			  }
 		  }
 	  }
-	  else {
+	  else {		  
 		  return null;
 	  }
   }     

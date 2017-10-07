@@ -87,7 +87,7 @@
 									<div class="form-group">
 										<label>Discount Type</label>
 										<input type="text" [formControl]="productForm.controls['discount_type']" class="form-control border-input" placeholder="Discount Type" value="">										
-										<div class="alert alert-danger" *ngIf="productForm.controls['discount_type'].errors && submitted">Enter Discount Type.</div>
+										<div class="alert alert-danger" *ngIf="productForm.controls['discount_type'].hasError('required') && submitted">Enter Discount Type.</div>
 									</div>
 								</div>
 							</div>
@@ -97,7 +97,7 @@
 									<div class="form-group">
 										<label>Discount</label>
 										<input type="text" [formControl]="productForm.controls['discount']" class="form-control border-input" placeholder="Discount" value="">										
-                                        <div class="alert alert-danger" *ngIf="productForm.controls['discount'].errors && submitted">Enter Discount.</div>										
+                                        <div class="alert alert-danger" *ngIf="productForm.controls['discount'].hasError('required') && submitted">Enter Discount.</div>										
 									</div>
 								</div>
 							</div>
