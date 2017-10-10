@@ -30,7 +30,7 @@ export class PagesComponent implements OnInit {
     private pageSize: any; 
     private currentPage = 1;
     private sortreverse = true;  
-    
+    public flashMessage;
     pager: any = {};
   
     pagedItems: any[];
@@ -40,7 +40,9 @@ export class PagesComponent implements OnInit {
 
     constructor(private http:HttpClient , private pagerService:PagerService) { }
 
-    ngOnInit() {
+    ngOnInit() {		
+	  this.flashMessage = localStorage.getItem('message');
+      localStorage.removeItem('message');	  
 	  this.pagedetail = this.pageList("");	  
     }
 	

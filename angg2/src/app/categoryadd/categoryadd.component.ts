@@ -15,7 +15,7 @@ export class CategoryaddComponent implements OnInit {
   private siteUrl = "http://localhost:8081/";
   private submitted = false;
   private categoylistsection = false;
-  
+  private categorylists = []; 
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private formBuilder: FormBuilder) { 
      this.categoryForm = formBuilder.group({
 		 'title':[null, Validators.required],      
@@ -29,7 +29,12 @@ export class CategoryaddComponent implements OnInit {
 	 }, {validator:this.checkCategoryType});
   }
 
-  ngOnInit() {
+  ngOnInit() {	  
+	  this.http.get(this.siteUrl+"category/parent").subscribe(result=>{
+	        if(result['success']=="1"){
+				this.categorylists = result['records'];
+			}
+	  });
   }
 
   setCategoryList(val){
@@ -47,6 +52,7 @@ export class CategoryaddComponent implements OnInit {
 		  var catedata = this.categoryForm.value;
 		  this.http.post(this.siteUrl+"category/add" , catedata).subscribe(result=>{
 		      if(result['success']=="1"){
+				  localStorage.setItem('message' , result['message']); 
 				  this.router.navigate(['./category']);	  
 			  }
 		  });

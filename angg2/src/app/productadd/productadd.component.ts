@@ -16,7 +16,7 @@ export class ProductaddComponent implements OnInit {
   private siteUrl = "http://localhost:8081/";
   private productsection;
   private discount_flag = "N";
-  private discountGroup;
+  private discountGroup; 
   constructor(private route:ActivatedRoute, private router:Router, private http:HttpClient, private formBuilder:FormBuilder) { 
      this.productForm = formBuilder.group({
 		 'title':[null, Validators.required],
@@ -50,6 +50,7 @@ export class ProductaddComponent implements OnInit {
 		 var product = this.productForm.value;
 		 this.http.post(this.siteUrl+"product/add" , product).subscribe(result=>{
 			 if(result['success']=="1"){
+				 localStorage.setItem('message' , result['message']);
 				 this.router.navigate(['./products']);	  
 			 }
 		 });

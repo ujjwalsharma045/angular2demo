@@ -33,6 +33,7 @@ export class PageaddComponent implements OnInit {
 		    this.add(this.pageForm.value).subscribe(result => {
 				  //console.log(result);
 				  if(result['success']=="1"){
+					 localStorage.setItem('message' , result['message']); 
 					 this.router.navigate(['./pages']);	  
 				  }
 			});

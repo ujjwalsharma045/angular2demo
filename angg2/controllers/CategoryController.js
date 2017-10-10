@@ -8,7 +8,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 		 if(req.method=="POST"){
             var condition = {
 				title:req.body.title,
-				parent_id:req.body.parent_id
+				parent_id:req.body.category
 			};
 			
 			Category.find(condition).count().exec(function(err , response){
@@ -22,7 +22,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 				else {
 					var data = {
 						title:req.body.title,
-						parent_id:req.body.parent_id,
+						parent_id:req.body.category,
 						description:req.body.description,
 						meta_tag:req.body.meta_tag,
 						meta_description:req.body.meta_description,
@@ -36,14 +36,14 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 						  throw err;
 					  
 						res.setHeader('Content-Type', 'application/json');
-						res.send(JSON.stringify({authen:1 , success:1}));				
+						res.send(JSON.stringify({authen:1 , success:1 , message:'<span style="font-color:green">Category saved successfully</span>'}));				
 					});
 				}
 			}); 								
 		 }
 		 else {
-			 res.setHeader('Content-Type', 'application/json');
-			 res.send(JSON.stringify({authen:1 , success:0}));
+			res.setHeader('Content-Type', 'application/json');
+			res.send(JSON.stringify({authen:1 , success:0}));
 		 }
 	});
 
@@ -51,6 +51,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 		 if(req.method=="POST"){
             var condition = {
 				title:req.body.title,
+				parent_id:req.body.category,
 			};						
 			var error = false;
 			Category.find(condition).exec(function(err , response){
@@ -61,7 +62,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 				else if(response.length>0){
 					if(response[0]['_id']!=req.params.id){
 					   error = true;
-                       errormessage = "Category already exists2.";  					   
+                       errormessage = "Category already exists.";  					   
 					}
 				}
 				
@@ -69,7 +70,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 					
 					var data = {
 						title:req.body.title,
-						parent_id:req.body.parent_id,
+						parent_id:req.body.category,
 						description:req.body.description,
 						meta_tag:req.body.meta_tag,
 						meta_description:req.body.meta_description,
@@ -87,7 +88,7 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 						  throw err;
 					  
 						res.setHeader('Content-Type', 'application/json');
-						res.send(JSON.stringify({authen:1 , success:1}));				
+						res.send(JSON.stringify({authen:1 , success:1 , message:'<span style="font-color:green">Category updated successfully</span>'}));				
 					});
 				}
 				else {

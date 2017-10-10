@@ -16,12 +16,15 @@ export class ProductlistComponent implements OnInit {
 	  sortfield:'title'
   };
   pager: any = {};
+  private flashMessage;
   private siteUrl = "http://localhost:8081/";
   constructor(private route:ActivatedRoute ,private router:Router, private http:HttpClient) { }
 
   ngOnInit() {
+	  this.flashMessage = localStorage.getItem('message');
+	  localStorage.removeItem('message');
 	  this.http.get(this.siteUrl+"product/index").subscribe(result=>{
-	      if(result['success']=="1"){			  
+	      if(result['success']=="1"){	               		 
 			  this.productdetail = result['records'];
 		  }    
 	  });

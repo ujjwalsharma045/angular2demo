@@ -25,9 +25,8 @@
 								<div class="col-md-12">
 									<div class="form-group">
 										<label>Category List</label>
-										<select name="category" [formControl]="categoryForm.controls['category']" class="form-control border-input">
-										   <option value="" selected>----</option>
-										   <option value="1">Active</option>									   
+										<select name="category"  [formControl]="categoryForm.controls['category']" class="form-control border-input">										   
+										   <option *ngFor="let categorydetails of categorylists" value="{{categorydetails._id}}" >{{categorydetails.title}}</option>										   
 										</select>								
 										<div *ngIf="categoryForm.controls['category'].errors && submitted" class="alert alert-danger">Select category.</div>          
 									</div>

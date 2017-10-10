@@ -1,6 +1,6 @@
 module.exports = function(app , func , mail, upload, storage, mailer, multer, validator, Page, paginate , cors , dateFormat , dateDiff, dobByAge, json2csv, excel , pdf, passport , LocalStrategy, bCrypt ,slugify){ 
     
-    var sess;
+    var sess; 
     //var session = require('express-session'); 
     var math = require('mathjs');  		
 	var async = require('async');
@@ -95,62 +95,81 @@ module.exports = function(app , func , mail, upload, storage, mailer, multer, va
 			var pageid = req.params.id; 
 			var error = [];	
 			var data = {};
-			var recor = [];				
-							
-			if(error.length <=0){
-				   var currentdate = new Date();
-				   var formatteddate = dateFormat(currentdate ,'yyyy-mm-dd HH:MM:ss');
-		  
-				   data = {
-						title: req.body.title,
-						slug:slugify(req.body.title),
-						content:req.body.content,								
-						modified_at:formatteddate,
-						status:req.body.status
-				   }; 
-		  
-				   console.log(data);
-				   Page.findOneAndUpdate({_id: pageid}, data, function(err, records) {
-					  if (err) throw err;				 
-								 
-					  res.setHeader('Content-Type', 'application/json');
-					  res.send(JSON.stringify({authen:1 ,success:1}));
-				   });						  									      	 		 
-			}
-			else {
-				  res.setHeader('Content-Type', 'application/json');
-				  res.send(JSON.stringify({authen:1 ,success:0}));
-			}					    		
+			var recor = [];		
+          	var condition = {
+				title:req.body.title
+			};
+			
+			Page.find(condition).exec(function(err , records){
+			    if(records.length>0){
+					res.setHeader('Content-Type', 'application/json');
+					res.send(JSON.stringify({authen:1 , error:1 , message:'Page name already exists.'}));
+				}
+				else {					
+					if(error.length <=0){
+						   var currentdate = new Date();
+						   var formatteddate = dateFormat(currentdate ,'yyyy-mm-dd HH:MM:ss');
+				  
+						   data = {
+								title: req.body.title,
+								slug:slugify(req.body.title),
+								content:req.body.content,								
+								modified_at:formatteddate,
+								status:req.body.status
+						   }; 
+				  
+						   console.log(data);
+						   Page.findOneAndUpdate({_id: pageid}, data, function(err, records) {
+							  if (err) throw err;				 
+										 
+							  res.setHeader('Content-Type', 'application/json');
+							  res.send(JSON.stringify({authen:1 ,success:1 , message:'Page updated successfully'}));
+						   });						  									      	 		 
+					 }
+					 else {
+						  res.setHeader('Content-Type', 'application/json');
+						  res.send(JSON.stringify({authen:1 ,success:0}));
+					 }										
+				}
+			});												    		
 	});
 	
     app.post("/page/add",   function(req , res){			
 			var error = [];
 			var data = {};
-			
-			if(error.length<=0){                   								
-				var currentdate = new Date();
-				var formatteddate = dateFormat(currentdate ,'yyyy-mm-dd HH:MM:ss');				   
-				data = {
-					 title:req.body.title,
-					 slug:slugify(req.body.title),
-					 content:req.body.content,							 
-					 created_at :formatteddate,
-                     status:req.body.status					 
-				};
-											
-				console.log(data);			   
-				var detail = new Page(data);
-				detail.save(function(err){
-					  if(err) throw err;
-					  console.log('Page saved successfully!');
-					  res.setHeader('Content-Type', 'application/json');
-					  res.send(JSON.stringify({authen:1 , success:1})); 				   
-				});			   			    				    
-			}
-			else {					
-				res.setHeader('Content-Type', 'application/json');
-				res.send(JSON.stringify({authen:1 ,success:0}));			    
-			}						
+			var condition = {};
+			Page.find(condition).exec(function(err , records){
+				if(records.length>0){
+					res.setHeader('Content-Type', 'application/json');
+					res.send(JSON.stringify({authen:1 , error:1 , message:''}));			    
+				}
+				else {					
+					if(error.length<=0){                   								
+						var currentdate = new Date();
+						var formatteddate = dateFormat(currentdate ,'yyyy-mm-dd HH:MM:ss');				   
+						data = {
+							 title:req.body.title,
+							 slug:slugify(req.body.title),
+							 content:req.body.content,							 
+							 created_at :formatteddate,
+							 status:req.body.status					 
+						};
+													
+						console.log(data);			   
+						var detail = new Page(data);
+						detail.save(function(err){
+							  if(err) throw err;
+							  console.log('Page saved successfully!');
+							  res.setHeader('Content-Type', 'application/json');
+							  res.send(JSON.stringify({authen:1 , success:1 , message:'Page added successfully'})); 				   
+						});			   			    				    
+					}
+					else {					
+						res.setHeader('Content-Type', 'application/json');
+						res.send(JSON.stringify({authen:1 ,success:0}));			    
+					}
+			    }
+			});				
 	});
 		
     app.get('/page/exportcsv', passport.isAdminAuthenticated, function(req , res){

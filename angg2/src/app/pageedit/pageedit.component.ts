@@ -44,6 +44,7 @@ export class PageeditComponent implements OnInit {
         if(this.pageForm.valid){
 		    this.http.post(this.pageUrl+"page/edit/"+this.pageid , this.pageForm.value).subscribe(result => {
 				if(result['success']=="1"){
+					localStorage.setItem('message' , result['message']);
 					this.router.navigate(['./pages']);	  
 				}
 			}); 			  

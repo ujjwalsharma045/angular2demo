@@ -61,6 +61,7 @@ export class ProducteditComponent implements OnInit {
 		  var product = this.productForm.value;
 		  this.http.post(this.siteUrl+"product/edit/"+this.productid , product).subscribe(result=>{
 		     if(result['success']=="1"){
+				 localStorage.setItem('message' , result['message']);
 				 this.router.navigate(['./products']);	  
 			 }
 		  }); 

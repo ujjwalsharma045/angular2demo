@@ -19,12 +19,15 @@ export class CategorylistComponent implements OnInit {
   private pager = {
 	  pages:""
   };
+  private flashMessage = "";
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+	  
+	  this.flashMessage = localStorage.getItem('message'); 
+	  localStorage.removeItem('message');
 	  this.http.get(this.siteUrl+"category/index").subscribe(result=>{
-		  if(result['success']=="1"){
-			  alert("asdf");
+		  if(result['success']=="1"){			  
 			 this.categoryDetail = result['records'];
 		  }
 	  });

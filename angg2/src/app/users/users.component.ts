@@ -36,7 +36,7 @@ export class UsersComponent implements OnInit{
   
     pagedItems: any[];
     private userService:UserService;
-    
+    private flashMessage;
     private sectionTitle = 'Users';
     private userUrl = 'http://localhost:8081/';
 	
@@ -48,6 +48,8 @@ export class UsersComponent implements OnInit{
   
     ngOnInit(){
 		//alert("dd1");
+		this.flashMessage = localStorage.getItem('message');
+		localStorage.removeItem('message');
 		this.userdetail = this.userList("");
     }
 	

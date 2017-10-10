@@ -34,7 +34,7 @@ export class CategoryeditComponent implements OnInit {
 
       this.http.get(this.siteUrl+"category/view/"+this.categoryid).subscribe(result=>{
 	      if(result['success']=="1"){
-			  this.categoryForm.patchValue(result['records']);
+			  this.categoryForm.patchValue(result['records']);			  
 		  }
 	  });	  
   }
@@ -45,6 +45,7 @@ export class CategoryeditComponent implements OnInit {
 		  var catedata = this.categoryForm.value;
 		  this.http.post(this.siteUrl+"category/edit/"+this.categoryid , catedata).subscribe(result=>{
 		      if(result['success']=="1"){
+				 localStorage.setItem('message' , result['message']); 
 				 this.router.navigate(['./category']);	   
 			  }
 		  });

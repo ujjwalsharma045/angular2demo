@@ -43,6 +43,7 @@ export class UseraddComponent implements OnInit {
 	    if(this.userForm.valid){ 
 		    this.http.post(this.userUrl+"adduser" , this.userForm.value).subscribe(result => {
 				if(result['success']=="1"){
+					localStorage.setItem('message' , result['message']);
 					this.router.navigate(['./users']);	  
 				}
 			}); 			
